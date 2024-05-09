@@ -1,4 +1,3 @@
-//Modelo para estruturas de dados de árvores binárias
 #include <stdio.h>
 #include <stdlib.h>
 
