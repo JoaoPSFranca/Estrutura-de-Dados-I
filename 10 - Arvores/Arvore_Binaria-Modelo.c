@@ -7,22 +7,63 @@ typedef struct sNode{
     struct sNode *dir;
 } Node;
 
-int countNode(Node *raiz){
-    if(raiz != NULL){
-        int esquerda = countNode(raiz->esq);
-        int direita = countNode(raiz->dir);
+typedef struct searchTree{
+    Node *root;
+
+} Tree;
+
+void init (Node **root){
+    *root = NULL;
+}
+
+void insertNode(Node **root, int value){
+    if(*root == NULL)
+        *root = (Node *) malloc(sizeof(Node));
+    
+    Node *aux = *root;
+    
+    if (value <= aux->info) {
+        while(aux != NULL){
+            if (aux->info > value) {
+                /* code */
+            }
+            else
+                aux = aux->esq;
+        }
+    }
+    
+    while(aux != NULL){
+        if(value < aux->info){
+            if(aux->esq == NULL){
+                aux->esq = (Node *) malloc(sizeof(Node));
+                aux = aux->esq;
+                aux->info = value;
+                aux->esq = NULL;
+                aux->dir = NULL;
+                break;
+            }
+            else
+                aux = aux->esq;
+        }
+    }
+}
+
+int countNode(Node *root){
+    if(root != NULL){
+        int esquerda = countNode(root->esq);
+        int direita = countNode(root->dir);
         return (1 + esquerda + direita);
     }
     else
         return 0;
 }
 
-int countLeaf(Node *raiz){
-    if(raiz != NULL){
-        int esquerda = countLeaf(raiz->esq);
-        int direita = countLeaf(raiz->dir);
+int countLeaf(Node *root){
+    if(root != NULL){
+        int esquerda = countLeaf(root->esq);
+        int direita = countLeaf(root->dir);
 
-        if(raiz->esq == NULL && raiz->dir == NULL)
+        if(root->esq == NULL && root->dir == NULL)
             return (1 + esquerda + direita);
         else
             return (esquerda + direita);
@@ -31,11 +72,11 @@ int countLeaf(Node *raiz){
         return 0;
 }
 
-int countHeight(Node *raiz){
-    if(raiz != NULL){
+int countHeight(Node *root){
+    if(root != NULL){
         int maior = 0;
-        int esquerda = countHeight(raiz->esq);
-        int direita = countHeight(raiz->dir);
+        int esquerda = countHeight(root->esq);
+        int direita = countHeight(root->dir);
         
         if (esquerda > direita)
             maior = esquerda;
@@ -46,4 +87,16 @@ int countHeight(Node *raiz){
     }
     else
         return 0;
+}
+
+void visit(Node *root){
+    printf("%d ", root->info);
+}
+
+void inOrder(Node *root){
+    if(*root != NULL){
+        inOrder(root->esq);
+        visit(root);
+        inOrder(root->dir);
+    }
 }
