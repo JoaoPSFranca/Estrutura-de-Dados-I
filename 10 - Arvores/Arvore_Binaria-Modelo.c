@@ -94,9 +94,10 @@ void visit(Node *root){
 }
 
 void inOrder(Node *root){
-    if(*root != NULL){
+    if(root != NULL){
         inOrder(root->esq);
         visit(root);
         inOrder(root->dir);
     }
 }
+
