@@ -9,11 +9,14 @@ typedef struct sNode{
 
 typedef struct searchTree{
     Node *root;
-
 } Tree;
 
-void init (Node **root){
+void init(Node **root) {
     *root = NULL;
+}
+
+int isEmpty(Node *root) {
+    return root == NULL;
 }
 
 void insertNode(Node **root, int value){
@@ -89,6 +92,20 @@ int countHeight(Node *root){
         return 0;
 }
 
+Node* search(Node *root, int info){
+    Node* aux;
+    aux = root;
+
+    if(isEmpty(aux))
+        return NULL;
+    else if(info > aux->info)
+        return search(aux->dir, info);
+    else if(info < aux->info)
+        return search(aux->esq, info);
+    else
+        return aux;
+}
+
 void visit(Node *root){
     printf("%d ", root->info);
 }
@@ -101,3 +118,10 @@ void inOrder(Node *root){
     }
 }
 
+void preOrder(Node *root){
+    if(root != NULL){
+        preOrder(root->esq);
+        preOrder(root->dir);
+        visit(root);
+    }
+}
